@@ -68,6 +68,10 @@ const Home = () => {
                 </Grid>
             </Box>
             <AdModal open={open} setOpen={setOpen} selectedAd={selectedAd}/>
+            <div style={{width: "100%", height : "0", paddingBottom: "60%", position: "relative"}}>
+                <iframe src="https://giphy.com/embed/UrzDYZQsBSLH4Isq1H"
+                        style={{position: "absolute", width: "100%", height:"100%"}} frameBorder="0" className="giphy-embed" ></iframe>
+            </div>
         </div>
     );
 };

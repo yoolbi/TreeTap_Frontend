@@ -1,6 +1,5 @@
 import urlJoin from "url-join";
 import Cookies from 'js-cookie';
-import axios from "axios";
 
 function parseJSON(response) {
     return response
