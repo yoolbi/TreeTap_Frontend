@@ -1,46 +1,84 @@
 import React from "react";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Banner from "./Banner";
+
+
+
+
+
 
 const Profile = () => {
+    const couponList = [
+        { label: 'Coupon1'},
+        { label: 'Coupon2'},
+        { label: 'Coupon3'}]
+
+    const CouponDropDown = () => {
+        return (
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={couponList}
+                sx={{ width: 600 }}
+                renderInput={(params) => <TextField {...params} label="Coupons" />}
+            />
+        );
+    }
+
+    const stateBarKeyStyle = {
+        display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'15px', color:'#787878', fontWeight:'500', fontFamily: "Open Sans"
+    }
+
+    const stateBarValueStyle = {
+        display:'flex', alignItems:'end', justifyContent:'center', flex:1.5, fontSize:'25px', color:'#4D4D4D', fontWeight:'550', fontFamily: "Open Sans"
+    }
 
     return (
-        <div style={{position:'absolute', display:'flex', flexFlow:"column", width:"100%", height:"100%", backgroundColor:'yellow'}}>
-            <div style={{flex:"0 0 50px", backgroundColor:'gray'}}>
-
+        <div style={{position:'absolute', display:'flex', flexFlow:"column", width:"100%", height:"100%"}}>
+            <Banner></Banner>
+            <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex: "0 0 160px", backgroundSize:'100% 100%', backgroundRepeat:'no-repeat',  backgroundImage: `url("./images/defaultBackground.jpg")`}}>
+                <div style={{position:'relative', width:'120px', height:'120px', borderRadius:'50%', overflow:'hidden'}}>
+                    <img style={{height: "100%", width: "100%"}} src="/images/defaultProfile.png"/>
+                </div>
             </div>
-            <div style={{flex: "0 0 160px", backgroundColor:"white"}}>
-                bg here
-            </div>
-            <div style={{display:'flex', flex: "0 0 90px", backgroundColor:"#431412"}}>
+            <div style={{display:'flex', flex: "0 0 90px", backgroundColor:'#f6f6f6'}}>
                 <div style={{flex: '1'}}/>
-                <div style={{display:'flex', flex: '0.8', backgroundColor:"#123432"}}>
-                    <div style={{display:'flex', flexFlow:'column', flex:'1', backgroundColor:'white'}}>
-                        <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:2, fontSize:'20px', backgroundColor:'gray'}}>
+                <div style={{display:'flex', flex: '1'}}>
+                    <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
+                        <div style={stateBarValueStyle}>
                             1,340
                         </div>
-                        <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'12px'}}>
+                        <div style={stateBarKeyStyle}>
                             TREES
                         </div>
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
-                        <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:2, backgroundColor:'gray'}}>
+                        <div style={stateBarValueStyle}>
                             <img style={{height: "28px", width: "28px"}} src="/images/level1.png"/>
                         </div>
-                        <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'12px'}}>
+                        <div style={stateBarKeyStyle}>
                             LEVELS
                         </div>
                     </div>
-                    <div style={{display:'flex', flexFlow:'column', flex:'1', backgroundColor:'white'}}>
-                        <div style={{flex:2, backgroundColor:'gray'}}>
+                    <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
+                        <div style={stateBarValueStyle}>
+                            4690
                         </div>
-                        <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'12px'}}>
+                        <div style={stateBarKeyStyle}>
                             CO2
                         </div>
                     </div>
                 </div>
                 <div style={{flex: '1'}}/>
             </div>
-            <div style={{flex:1, backgroundColor:"#431234"}}>
+            <div style={{display:'flex', flexFlow:'column', flex:1, backgroundColor:"white"}}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 130px'}}>
+                    <CouponDropDown/>
+                </div>
+                <div style={{flex:'1'}}>
 
+                </div>
             </div>
         </div>
     );
