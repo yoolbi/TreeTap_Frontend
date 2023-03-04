@@ -68,7 +68,6 @@ const AdModal = ({open, setOpen, selectedAd}) => {
                                 PLANT TREE
                             </Button>
                         </CardActions>
-
                     </Card>
 
                 </Box>
