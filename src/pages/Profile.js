@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import Cookies from 'js-cookie';
 import Banner from "./Banner";
 
 
@@ -48,12 +49,31 @@ const GetLevelUrl = (treeCount) => {
     return `/images/level${level}.png`;
 }
 
-const Profile = (treeCount) => {
-    let targetTreeCount = treeCount;
-    targetTreeCount = 1230;
-    let duration = 1000;
-    const [curTreeCount, setCount] = useState(0);
 
+const Profile = () => {
+
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        let access_token =  Cookies.get('access_token');
+        fetch('http://localhost:8000/apps/auth/profile', {
+            headers: {
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error))
+    }, [])
+
+    console.log(data);
+
+    let numOfTrees = (data)? data.num_of_trees : 0;
+    let carbonCredit = (data)? data.carbon_credit : 0;
+
+
+    const [curTreeCount, setCount] = useState(0);
+    let duration = 1000;
     useEffect(() => {
         let intervalId = null;
         let startTime = null;
@@ -66,7 +86,7 @@ const Profile = (treeCount) => {
 
             const elapsedTime = timestamp - startTime;
             const progress = Math.min(elapsedTime / duration, 1);
-            const newCount = Math.floor(progress * (targetTreeCount - startCount)) + startCount;
+            const newCount = Math.floor(progress * (numOfTrees - startCount)) + startCount;
 
             setCount(newCount);
 
@@ -80,7 +100,7 @@ const Profile = (treeCount) => {
         return () => {
             cancelAnimationFrame(intervalId);
         };
-    }, [targetTreeCount, duration]);
+    }, [numOfTrees, duration]);
 
     return (
         <div style={{position:'absolute', display:'flex', flexFlow:"column", width:"100%", height:"100%"}}>
@@ -110,7 +130,7 @@ const Profile = (treeCount) => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            <img style={{height: "28px", width: "28px"}} src={GetLevelUrl(treeCount)}/>
+                            <img style={{height: "28px", width: "28px"}} src={GetLevelUrl(numOfTrees)}/>
                         </div>
                         <div style={stateBarKeyStyle}>
                             LEVEL
@@ -119,7 +139,7 @@ const Profile = (treeCount) => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            {(curTreeCount * 45).toLocaleString()}
+                            {(carbonCredit).toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
                             CARBON CREDIT
@@ -134,7 +154,7 @@ const Profile = (treeCount) => {
                     <CouponDropDown/>
                 </div>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 400px', overflow:'hidden'}}>
-                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(targetTreeCount)}/>
+                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(numOfTrees)}/>
                     <style>
                     {`
                       @keyframes floating {
