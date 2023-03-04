@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
 import Banner from "./Banner";
+import {Paper} from "@mui/material";
 
 
 
@@ -15,12 +16,12 @@ const stateBarValueStyle = {
     display:'flex', alignItems:'end', justifyContent:'center', flex:1.5, fontSize:'25px', color:'#4D4D4D', fontWeight:'550', fontFamily: "Open Sans"
 }
 
-const couponList = [
+const tempCouponList = [
     { label: 'Coupon1'},
     { label: 'Coupon2'},
     { label: 'Coupon3'}]
 
-const CouponDropDown = () => {
+const CouponDropDown = ({couponList}) => {
     return (
         <Autocomplete
             disablePortal
@@ -75,7 +76,8 @@ const Profile = () => {
     let numOfTrees = (data)? data.num_of_trees : 0;
     let carbonCredit = (data)? data.carbon_credit : 0;
     carbonCredit = Math.round((numOfTrees / 40) * 10) / 10;
-    let userEmail = (data) ? data.email_address : "";
+    let userEmail = (data)? data.email_address : "";
+    let couponList =  (data)? tempCouponList : tempCouponList;
 
     const [curTreeCount, setCount] = useState(0);
     let duration = 1000;
@@ -156,7 +158,7 @@ const Profile = () => {
             </div>
             <div style={{display:'flex', flexFlow:'column', flex:'1 0 auto', backgroundSize:'100% 100%', backgroundImage: `url("./images/profileBackground2.png")`}}>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 130px'}}>
-                    <CouponDropDown/>
+                    <CouponDropDown couponList={couponList}/>
                 </div>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 400px', overflow:'hidden'}}>
                     <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(numOfTrees)}/>
@@ -175,8 +177,8 @@ const Profile = () => {
                       }
                     `}
                     </style>
-                    <div style={{position:'fixed', bottom:"0", right:'0', margin:'10px'}}>
-                        <Link to={'/'}><a href="#" onClick={Logout} style={{color:'gray'}}>Log out</a></Link>
+                    <div style={{position:'fixed', bottom:"0", right:'30px', margin:'10px'}}>
+                        <Link to={'/'}><div onClick={Logout} style={{color:'gray'}}>Log out</div></Link>
                     </div>
                 </div>
             </div>
