@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {Button} from "@mui/material";
 
 const Start = () => {
@@ -20,9 +21,12 @@ const Start = () => {
                     <div style={{fontFamily: "Open Sans", color: "#0D6F12", fontSize: "96px", fontWeight: "bold"}}>TreeTap</div>
                     <div style={{fontFamily: "Sorts Mill Goudy", fontSize: "36px"}}>"Click for trees, make a change with ease!"</div>
                     <div style={{fontFamily: "Open Sans", fontSize: "20px", marginTop: "5px"}}>TreeTap is a sustainable advertising platform that connects businesses with reforestation organizations to promote eco-friendly practices and encourage reforestation efforts.</div>
-                    <Button variant="contained" color="success" style={{marginTop: "20px"}}>
-                        START PLANTING
-                    </Button>
+                    <Link to="/Login" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="success" style={{marginTop: "20px"}}>
+                            START PLANTING
+                        </Button>
+                    </Link>
+
                 </div>
                 <img style={{height: "740px", width: "800px"}} src="/images/start_logo.png"/>
             </div>
