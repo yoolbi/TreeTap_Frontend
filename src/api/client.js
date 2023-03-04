@@ -1,4 +1,6 @@
 import urlJoin from "url-join";
+import Cookies from 'js-cookie';
+import axios from "axios";
 
 function parseJSON(response) {
     return response
@@ -34,6 +36,21 @@ export const loginAPIMethod = async (name, password) => {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
+        }
+    ).then(parseJSON);
+};
+
+export const getAdsAPIMethod = () => {
+    return fetch(
+        urlJoin(
+            process.env.REACT_APP_BACKEND_URL,
+            "/apps/advertisement/"
+        ),
+        {
+            credentials: "include",
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
         }
     ).then(parseJSON);
 };
