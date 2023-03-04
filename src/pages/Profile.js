@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
@@ -50,9 +51,13 @@ const GetLevelUrl = (treeCount) => {
 }
 
 
+
 const Profile = () => {
 
     const [data, setData] = useState(null);
+    const Logout = () => {
+        Cookies.set('access_token', "");
+    }
 
     useEffect(() => {
         let access_token =  Cookies.get('access_token');
@@ -66,10 +71,10 @@ const Profile = () => {
             .catch(error => console.error(error))
     }, [])
 
-    console.log(data);
 
     let numOfTrees = (data)? data.num_of_trees : 0;
     let carbonCredit = (data)? data.carbon_credit : 0;
+    carbonCredit = Math.round((numOfTrees / 40) * 10) / 10;
     let userEmail = (data) ? data.email_address : "";
 
     const [curTreeCount, setCount] = useState(0);
@@ -170,9 +175,9 @@ const Profile = () => {
                       }
                     `}
                     </style>
-                </div>
-                <div style={{flex:'1', backgroundColor:'blue'}}>
-                    Log out
+                    <div style={{position:'fixed', bottom:"0", right:'0', margin:'10px'}}>
+                        <Link to={'/'}><a href="#" onClick={Logout} style={{color:'gray'}}>Log out</a></Link>
+                    </div>
                 </div>
             </div>
         </div>
