@@ -70,7 +70,7 @@ const Profile = () => {
 
     let numOfTrees = (data)? data.num_of_trees : 0;
     let carbonCredit = (data)? data.carbon_credit : 0;
-
+    let userEmail = (data) ? data.email_address : "";
 
     const [curTreeCount, setCount] = useState(0);
     let duration = 1000;
@@ -112,8 +112,8 @@ const Profile = () => {
                         <img style={{height: "100%", width: "100%"}} src="/images/defaultProfile.png"/>
                     </div>
                 </div>
-                <div style={{flex:'1', fontFamily: "Open Sans", fontSize:'12px', color:'#4D4D4D'}}>
-                    tabtree@tab.com
+                <div style={{flex:'1', fontFamily: "Open Sans", fontSize:'15px', color:'#4D4D4D'}}>
+                    {userEmail}
                 </div>
             </div>
             <div style={{display:'flex', flex: "0 0 90px", backgroundColor:'#f6f6f6'}}>
