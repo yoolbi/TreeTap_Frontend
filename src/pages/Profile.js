@@ -20,7 +20,7 @@ const Profile = () => {
                 disablePortal
                 id="combo-box-demo"
                 options={couponList}
-                sx={{ width: 600 }}
+                sx={{ width: 450 }}
                 renderInput={(params) => <TextField {...params} label="Coupons" />}
             />
         );
@@ -37,9 +37,15 @@ const Profile = () => {
     return (
         <div style={{position:'absolute', display:'flex', flexFlow:"column", width:"100%", height:"100%"}}>
             <Banner></Banner>
-            <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex: "0 0 160px", backgroundSize:'100% 100%', backgroundRepeat:'no-repeat',  backgroundImage: `url("./images/defaultBackground.jpg")`}}>
-                <div style={{position:'relative', width:'120px', height:'120px', borderRadius:'50%', overflow:'hidden'}}>
-                    <img style={{height: "100%", width: "100%"}} src="/images/defaultProfile.png"/>
+            <div style={{display:'flex', flexFlow:'column', alignItems:'center', justifyContent:'center', flex: "0 0 160px", backgroundSize:'100% 100%', backgroundRepeat:'no-repeat',  backgroundImage: `url("./images/defaultBackground.jpg")`}}>
+                <div style={{flex:'1'}}></div>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'4'}}>
+                    <div style={{width:'100px', height:'100px', borderRadius:'50%', overflow:'hidden'}}>
+                        <img style={{height: "100%", width: "100%"}} src="/images/defaultProfile.png"/>
+                    </div>
+                </div>
+                <div style={{flex:'1', fontFamily: "Open Sans", fontSize:'12px', color:'#4D4D4D'}}>
+                    tabtree@tab.com
                 </div>
             </div>
             <div style={{display:'flex', flex: "0 0 90px", backgroundColor:'#f6f6f6'}}>
@@ -52,6 +58,7 @@ const Profile = () => {
                         <div style={stateBarKeyStyle}>
                             TREES
                         </div>
+                        <div style={{flex: '0.3'}}></div>
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
@@ -60,6 +67,7 @@ const Profile = () => {
                         <div style={stateBarKeyStyle}>
                             LEVELS
                         </div>
+                        <div style={{flex: '0.3'}}></div>
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
@@ -68,16 +76,17 @@ const Profile = () => {
                         <div style={stateBarKeyStyle}>
                             CO2
                         </div>
+                        <div style={{flex: '0.3'}}></div>
                     </div>
                 </div>
                 <div style={{flex: '1'}}/>
             </div>
-            <div style={{display:'flex', flexFlow:'column', flex:1, backgroundColor:"white"}}>
+            <div style={{display:'flex', flexFlow:'column', flex:'1 0 auto', backgroundColor:"white"}}>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 130px'}}>
                     <CouponDropDown/>
                 </div>
-                <div style={{flex:'1'}}>
-
+                <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 400px', overflow:'hidden'}}>
+                    <img style={{height: "800px", width: "800px"}} src="/images/land22.png"/>
                 </div>
             </div>
         </div>
