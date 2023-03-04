@@ -24,6 +24,7 @@ const tempCouponList = [
 const CouponDropDown = ({couponList}) => {
     return (
         <Autocomplete
+            noOptionsText={"No coupons"}
             disablePortal
             id="combo-box-demo"
             options={couponList}
@@ -69,15 +70,17 @@ const Profile = () => {
         })
             .then(response => response.json())
             .then(data => setData(data))
+            .then(data => console.log(data))
             .catch(error => console.error(error))
     }, [])
 
+    console.log(data);
 
     let numOfTrees = (data)? data.num_of_trees : 0;
     let carbonCredit = (data)? data.carbon_credit : 0;
     carbonCredit = Math.round((numOfTrees / 40) * 10) / 10;
     let userEmail = (data)? data.email_address : "";
-    let couponList =  (data)? tempCouponList : tempCouponList;
+    let couponList =  (data)? data.user_coupons : [];
 
     const [curTreeCount, setCount] = useState(0);
     let duration = 1000;
