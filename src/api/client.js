@@ -53,3 +53,22 @@ export const getAdsAPIMethod = () => {
         }
     ).then(parseJSON);
 };
+
+export const postTreeAPIMethod = async (id) => {
+    return await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/apps/auth/plant?${new URLSearchParams(
+            {advertisement_id: id}
+        )}`,
+        {
+            credentials: "include",
+            method: "POST",
+            body: JSON.stringify({
+                advertisement_id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON);
+};
