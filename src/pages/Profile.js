@@ -30,10 +30,27 @@ const CouponDropDown = () => {
     );
 }
 
-const Profile = () => {
+const GetLandUrl = (treeCount) => {
+    let landNum;
+    if (treeCount === 0) landNum = 1
+    else if (treeCount < 10) landNum = 2
+    else if (treeCount < 100) landNum = 3
+    else landNum = 4
+    return `/images/land${landNum}.png`;
+}
 
+const GetLevelUrl = (treeCount) => {
+    let level;
+    if (treeCount === 0) level = 1
+    else if (treeCount < 10) level = 2
+    else if (treeCount < 100) level = 3
+    else level = 4
+    return `/images/level${level}.png`;
+}
 
-    let targetTreeCount = 1230;
+const Profile = (treeCount) => {
+    let targetTreeCount = treeCount;
+    targetTreeCount = 1230;
     let duration = 1000;
     const [curTreeCount, setCount] = useState(0);
 
@@ -93,7 +110,7 @@ const Profile = () => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            <img style={{height: "28px", width: "28px"}} src="/images/level1.png"/>
+                            <img style={{height: "28px", width: "28px"}} src={GetLevelUrl(treeCount)}/>
                         </div>
                         <div style={stateBarKeyStyle}>
                             LEVEL
@@ -105,7 +122,7 @@ const Profile = () => {
                             {(curTreeCount * 45).toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
-                            CO2
+                            CARBON CREDIT
                         </div>
                         <div style={{flex: '0.3'}}></div>
                     </div>
@@ -117,7 +134,7 @@ const Profile = () => {
                     <CouponDropDown/>
                 </div>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 400px', overflow:'hidden'}}>
-                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src="/images/land22.png"/>
+                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(targetTreeCount)}/>
                     <style>
                     {`
                       @keyframes floating {
@@ -133,6 +150,9 @@ const Profile = () => {
                       }
                     `}
                     </style>
+                </div>
+                <div style={{flex:'1', backgroundColor:'blue'}}>
+                    Log out
                 </div>
             </div>
         </div>
