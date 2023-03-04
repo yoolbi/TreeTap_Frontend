@@ -1,0 +1,57 @@
+name: Initalization of VM
+on: workflow_dispatch
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Server
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            apt-get -y update
+      
+      - name: Install Nginx
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            apt-get -y install nginx
+            nginx -v
+            
+      - name: Install Nodejs
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            apt-get -y install nodejs
+            
+      - name: Install NPM
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            apt-get -y install npm
+      - name: Copy Github Repository
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+          
+          script: |
+            cd /root
+            git clone git@github.com:YoohaBae/TreeTap_Frontend.git -y --config core.sshCommand="ssh -i ~/.ssh/treetap2github"
+            echo 'Repository successfully cloned'
