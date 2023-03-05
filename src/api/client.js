@@ -128,3 +128,23 @@ export const getAllAdvertisements = () => {
         }
     ).then(parseJSON);
 }
+
+export const postAdsApproveAPIMethod = async (id, ngo, coupon) => {
+    return await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/apps/advertisement/${id}/approve?${new URLSearchParams(
+            {
+                advertisement_id: id,
+                ngo: ngo
+            }
+        )}`,
+        {
+            credentials: "include",
+            method: "POST",
+            body: JSON.stringify(coupon),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON);
+};
