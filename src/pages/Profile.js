@@ -5,6 +5,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
 import Banner from "./Banner";
 import {Paper} from "@mui/material";
+import {getAdsAPIMethod, getProfileAPIMethod, getUserCouponAPIMethod} from "../api/client";
+import urlJoin from "url-join";
 
 
 
@@ -21,7 +23,15 @@ const tempCouponList = [
     { label: 'Coupon2'},
     { label: 'Coupon3'}]
 
-const CouponDropDown = ({couponList}) => {
+const CouponDropDown = (param) => {
+    console.log(param)
+    //
+    let couponList = []
+    param.couponList.forEach((data) => {
+        // console.log(data);
+        couponList.push(data.company_name + " : " + data._id);
+    })
+    console.log(couponList);
     return (
         <Autocomplete
             noOptionsText={"No coupons"}
@@ -52,38 +62,66 @@ const GetLevelUrl = (treeCount) => {
     return `/images/level${level}.png`;
 }
 
-
-
 const Profile = () => {
 
-    const [data, setData] = useState(null);
+    const [profile, setProfile] = useState({
+        numOfTrees: 0,
+        carbonCredit: 0,
+        userEmail: "",
+        userCouponCodes: [],
+        ready: false
+    });
+
+    const [coupon, setCoupon] = useState({
+        coupons: [],
+        ready: false,
+    })
+
     const Logout = () => {
         Cookies.set('access_token', "");
     }
 
     useEffect(() => {
-        let access_token =  Cookies.get('access_token');
-        fetch('http://localhost:8000/apps/auth/profile', {
-            headers: {
-                'Authorization': `Bearer ${access_token}`
+        getProfileAPIMethod().then((data) => {
+            if (data.status === 401) {
+                window.location.replace(
+                    urlJoin(process.env.REACT_APP_FRONTEND_URL, "/")
+                );
+            } else {
+                console.log(data)
+                setProfile({
+                    numOfTrees: data.body.num_of_trees,
+                    carbonCredit: data.body.carbon_credit,
+                    userEmail: data.body.email_address,
+                    userCouponCodes: data.body.user_coupons,
+                    ready: true,
+                })
             }
         })
-            .then(response => response.json())
-            .then(data => setData(data))
-            .then(data => console.log(data))
-            .catch(error => console.error(error))
     }, [])
 
-    console.log(data);
-
-    let numOfTrees = (data)? data.num_of_trees : 0;
-    let carbonCredit = (data)? data.carbon_credit : 0;
-    carbonCredit = Math.round((numOfTrees / 40) * 10) / 10;
-    let userEmail = (data)? data.email_address : "";
-    let couponList =  (data)? data.user_coupons : [];
-
+    if (profile.ready && !coupon.ready)
+    {
+        if (profile.userCouponCodes.length > 0)
+        {
+            getUserCouponAPIMethod(profile.userCouponCodes).then((data) => {
+                if (data.status === 401) {
+                    window.location.replace(
+                        urlJoin(process.env.REACT_APP_FRONTEND_URL, "/")
+                    );
+                } else {
+                    console.log(data)
+                    setCoupon({
+                        coupons: data.body,
+                        ready: true
+                    })
+                }
+            })
+        }
+    }
     const [curTreeCount, setCount] = useState(0);
     let duration = 1000;
+
     useEffect(() => {
         let intervalId = null;
         let startTime = null;
@@ -96,7 +134,7 @@ const Profile = () => {
 
             const elapsedTime = timestamp - startTime;
             const progress = Math.min(elapsedTime / duration, 1);
-            const newCount = Math.floor(progress * (numOfTrees - startCount)) + startCount;
+            const newCount = Math.floor(progress * (profile.numOfTrees - startCount)) + startCount;
 
             setCount(newCount);
 
@@ -110,7 +148,7 @@ const Profile = () => {
         return () => {
             cancelAnimationFrame(intervalId);
         };
-    }, [numOfTrees, duration]);
+    }, [profile.numOfTrees, duration]);
 
     return (
         <div style={{position:'absolute', display:'flex', flexFlow:"column", width:"100%", height:"100%"}}>
@@ -123,7 +161,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div style={{flex:'1', fontFamily: "Open Sans", fontSize:'15px', color:'#4D4D4D'}}>
-                    {userEmail}
+                    {profile.userEmail}
                 </div>
             </div>
             <div style={{display:'flex', flex: "0 0 90px", backgroundColor:'#f6f6f6'}}>
@@ -140,7 +178,7 @@ const Profile = () => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            <img style={{height: "28px", width: "28px"}} src={GetLevelUrl(numOfTrees)}/>
+                            <img style={{height: "28px", width: "28px"}} src={GetLevelUrl(profile.numOfTrees)}/>
                         </div>
                         <div style={stateBarKeyStyle}>
                             LEVEL
@@ -149,7 +187,7 @@ const Profile = () => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            {(carbonCredit).toLocaleString()}
+                            {(profile.carbonCredit).toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
                             CARBON CREDIT
@@ -161,10 +199,10 @@ const Profile = () => {
             </div>
             <div style={{display:'flex', flexFlow:'column', flex:'1 0 auto', backgroundSize:'100% 100%', backgroundImage: `url("./images/profileBackground2.png")`}}>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 130px'}}>
-                    <CouponDropDown couponList={couponList}/>
+                    <CouponDropDown couponList={coupon.coupons}/>
                 </div>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 400px', overflow:'hidden'}}>
-                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(numOfTrees)}/>
+                    <img style={{width:'500px', height:'auto', animation: 'floating 3s ease-in-out infinite'}} src={GetLandUrl(profile.numOfTrees)}/>
                     <style>
                     {`
                       @keyframes floating {

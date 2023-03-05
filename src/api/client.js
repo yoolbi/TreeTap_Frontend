@@ -53,3 +53,32 @@ export const getAdsAPIMethod = () => {
         }
     ).then(parseJSON);
 };
+
+
+export const getProfileAPIMethod = () => {
+    return fetch(
+        urlJoin(
+            process.env.REACT_APP_BACKEND_URL,
+            "/apps/auth/profile"
+        ),
+        {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON)
+}
+
+export const getUserCouponAPIMethod = (couponCodes) => {
+    return fetch(
+        urlJoin(
+            process.env.REACT_APP_BACKEND_URL,
+            `/apps/advertisement/filter?advertisement_ids=${couponCodes}`
+        ),
+        {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON)
+}
