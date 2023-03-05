@@ -25,7 +25,7 @@ const Home = () => {
                 setAds(data.body);
             }
         })
-    }, []);
+    }, [open]);
 
     return (
         <div style={{width: "100%", height: "100%"}}>
