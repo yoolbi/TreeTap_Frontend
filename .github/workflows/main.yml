@@ -27,7 +27,7 @@ jobs:
         
           script: |
             cd /root/TreeTap_Frontend
-            npm install
+            npm install --legacy-peer-deps
             source setenv.sh
             npm run build
       
