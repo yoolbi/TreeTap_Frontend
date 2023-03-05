@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState} from "react";
 import {Box, Button, Card, CardActions, CardContent, CardMedia, Modal, Typography} from "@mui/material";
 import urlJoin from "url-join";
 import {postTreeAPIMethod} from "../api/client";
@@ -22,17 +22,14 @@ const AdModal = ({open, setOpen, selectedAd}) => {
         setOpen(false);
     }
     const [plant, setPlant] = useState(false);
-    const contentRef = useRef(null);
 
     const handleClickPlant = () => {
-        // window.open(`https://www.${selectedAd.website}`, '_blank')
-        // postTreeAPIMethod(selectedAd._id).then((data) => {
-        //     console.log(data)
-        //     if (data.status === 200) {
+        window.open(`https://www.${selectedAd.website}`, '_blank')
+        postTreeAPIMethod(selectedAd._id).then((data) => {
+            if (data.status === 200) {
                 setPlant(true);
-                // contentRef.current.scrollTop = 0;
-            // }
-        // })
+            }
+        })
     }
 
     return (
@@ -65,7 +62,7 @@ const AdModal = ({open, setOpen, selectedAd}) => {
                                 )}
                                 title="green iguana"
                             />
-                            <CardContent ref={contentRef}>
+                            <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {selectedAd.company_name}
                                 </Typography>
