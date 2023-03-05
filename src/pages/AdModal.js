@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState} from "react";
 import {Box, Button, Card, CardActions, CardContent, CardMedia, Modal, Typography} from "@mui/material";
 import urlJoin from "url-join";
 import {postTreeAPIMethod} from "../api/client";
@@ -8,7 +8,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: "50%",
+    width: "600px",
     height: "70%",
     borderRadius: "10px",
     bgcolor: 'background.paper',
@@ -22,15 +22,12 @@ const AdModal = ({open, setOpen, selectedAd}) => {
         setOpen(false);
     }
     const [plant, setPlant] = useState(false);
-    const contentRef = useRef(null);
 
     const handleClickPlant = () => {
         window.open(`https://www.${selectedAd.website}`, '_blank')
         postTreeAPIMethod(selectedAd._id).then((data) => {
-            console.log(data)
             if (data.status === 200) {
                 setPlant(true);
-                contentRef.current.scrollTop = 0;
             }
         })
     }
@@ -47,7 +44,7 @@ const AdModal = ({open, setOpen, selectedAd}) => {
                     <Card sx={{ width: "100%", height: "100%", overflowY: "auto" }}>
                         {plant &&
                             (<div>
-                                <div style={{fontFamily: "Open Sans", fontSize: "20px", textAlign: "center", marginTop: "100px"}}>
+                                <div style={{fontFamily: "Open Sans", fontSize: "20px", textAlign: "center", marginTop: "60px"}}>
                                     You Planted <b>{selectedAd.trees_per_click}</b> Trees!
                                 </div>
                                 <div style={{width: "100%", height : "0", paddingBottom: "100%", position: "relative"}}>
@@ -65,7 +62,7 @@ const AdModal = ({open, setOpen, selectedAd}) => {
                                 )}
                                 title="green iguana"
                             />
-                            <CardContent ref={contentRef}>
+                            <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {selectedAd.company_name}
                                 </Typography>
