@@ -45,7 +45,7 @@ const Home = () => {
                                     )}
                                     title="green iguana"
                                 />
-                                <CardContent sx={{backgroundColor: data.already_done && '#ECECEC'}}>
+                                <CardContent sx={{backgroundColor: data.already_done && '#DDDDDD'}}>
                                     <Typography gutterBottom variant="h5" component="div">
                                         {data.company_name}
                                     </Typography>
@@ -56,7 +56,7 @@ const Home = () => {
                                         Coupon: {data.coupon_info.slice(0, 30)}...
                                     </Typography>
                                 </CardContent>
-                                <CardActions sx={{backgroundColor: data.already_done && '#ECECEC'}}>
+                                <CardActions sx={{backgroundColor: data.already_done && '#DDDDDD'}}>
                                     <Button size="small" onClick={() => handleOpen(data)}>LEARN MORE</Button>
                                 </CardActions>
 
