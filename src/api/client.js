@@ -115,3 +115,16 @@ export const postAdsAPIMethod = (formData) => {
         }
     ).then(parseJSON);
 };
+
+export const getAllAdvertisements = () => {
+    return fetch(
+        urlJoin(
+            process.env.REACT_APP_BACKEND_URL + "/apps/advertisement/admin"
+        ),
+        {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON);
+}
