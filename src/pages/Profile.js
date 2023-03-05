@@ -8,7 +8,6 @@ import {getProfileAPIMethod, getUserCouponAPIMethod} from "../api/client";
 import urlJoin from "url-join";
 
 
-
 const stateBarKeyStyle = {
     display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'15px', color:'#787878', fontWeight:'500', fontFamily: "Open Sans"
 }
@@ -18,14 +17,10 @@ const stateBarValueStyle = {
 }
 
 const CouponDropDown = (param) => {
-    console.log(param)
-    //
     let couponList = []
     param.couponList.forEach((data) => {
-        // console.log(data);
         couponList.push(data.company_name + " : " + data._id);
     })
-    console.log(couponList);
     return (
         <Autocomplete
             noOptionsText={"No coupons"}
@@ -82,7 +77,6 @@ const Profile = () => {
                     urlJoin(process.env.REACT_APP_FRONTEND_URL, "/")
                 );
             } else {
-                console.log(data)
                 setProfile({
                     numOfTrees: data.body.num_of_trees,
                     carbonCredit: data.body.carbon_credit,
@@ -98,7 +92,6 @@ const Profile = () => {
     {
         if (profile.userCouponCodes.length > 0)
         {
-            console.log(profile.userCouponCodes);
             let codes = profile.userCouponCodes.map((pair) => pair.advertisement_id)
             getUserCouponAPIMethod(codes).then((data) => {
                 if (data.status === 401) {
@@ -106,7 +99,6 @@ const Profile = () => {
                         urlJoin(process.env.REACT_APP_FRONTEND_URL, "/")
                     );
                 } else {
-                    console.log(data)
                     setCoupon({
                         coupons: data.body,
                         ready: true
@@ -115,13 +107,17 @@ const Profile = () => {
             })
         }
     }
-    const [curTreeCount, setCount] = useState(0);
-    let duration = 1000;
+    const [count, setCount] = useState({
+        tree: 0,
+        carbon: 0,
+    });
+    let duration = 500;
 
     useEffect(() => {
         let intervalId = null;
         let startTime = null;
-        const startCount = curTreeCount;
+        const startTreeCount = count.tree;
+        const startCarbonCount = count.carbon;
 
         const incrementCount = (timestamp) => {
             if (!startTime) {
@@ -130,9 +126,13 @@ const Profile = () => {
 
             const elapsedTime = timestamp - startTime;
             const progress = Math.min(elapsedTime / duration, 1);
-            const newCount = Math.floor(progress * (profile.numOfTrees - startCount)) + startCount;
+            const newTreeCount = Math.floor(progress * (profile.numOfTrees - startTreeCount)) + startTreeCount;
+            const newCarbonCount = Math.floor(progress * (profile.carbonCredit - startCarbonCount)) + startCarbonCount;
 
-            setCount(newCount);
+            setCount({
+                tree: newTreeCount,
+                carbon: newCarbonCount,
+            });
 
             if (progress < 1) {
                 intervalId = requestAnimationFrame(incrementCount);
@@ -165,7 +165,7 @@ const Profile = () => {
                 <div style={{display:'flex', flex: '1'}}>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            {curTreeCount.toLocaleString()}
+                            {count.tree.toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
                             TREES
@@ -183,7 +183,7 @@ const Profile = () => {
                     </div>
                     <div style={{display:'flex', flexFlow:'column', flex:'1'}}>
                         <div style={stateBarValueStyle}>
-                            {(profile.carbonCredit).toLocaleString()}
+                            {count.carbon.toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
                             CARBON CREDIT
