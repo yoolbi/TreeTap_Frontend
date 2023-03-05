@@ -17,17 +17,15 @@ const Home = () => {
 
     useEffect(() => {
         getAdsAPIMethod().then((data) => {
-            console.log(data);
             if (data.status === 401) {
                 window.location.replace(
                     urlJoin(process.env.REACT_APP_FRONTEND_URL, "/Login")
                 );
-            } else {
+            } else if (data.status === 200) {
                 setAds(data.body);
             }
         })
     }, []);
-
 
     return (
         <div style={{width: "100%", height: "100%"}}>
@@ -47,7 +45,7 @@ const Home = () => {
                                     )}
                                     title="green iguana"
                                 />
-                                <CardContent>
+                                <CardContent sx={{backgroundColor: data.already_done && '#ECECEC'}}>
                                     <Typography gutterBottom variant="h5" component="div">
                                         {data.company_name}
                                     </Typography>
@@ -58,7 +56,7 @@ const Home = () => {
                                         Coupon: {data.coupon_info.slice(0, 30)}...
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
+                                <CardActions sx={{backgroundColor: data.already_done && '#ECECEC'}}>
                                     <Button size="small" onClick={() => handleOpen(data)}>LEARN MORE</Button>
                                 </CardActions>
 
@@ -67,6 +65,7 @@ const Home = () => {
                     ))}
                 </Grid>
             </Box>
+            <div style={{padding: '20px'}}></div>
             <AdModal open={open} setOpen={setOpen} selectedAd={selectedAd}/>
         </div>
     );

@@ -2,22 +2,36 @@ import React, {useState} from "react";
 import Banner from "./Banner";
 import {Box, Button, TextField, Typography, Collapse, Alert, IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import {postAdsAPIMethod} from "../api/client";
+import urlJoin from "url-join";
 
 const Company = () => {
     const [openAlert, setOpenAlert] = useState(false);
+    const [fileName, setFileName] = useState('');
+
+    const handleFileInputChange = (event) => {
+        setFileName(event.target.files[0].name);
+    };
 
     const handleSubmitJoin = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            name: data.get('name'),
-            website: data.get('website'),
-            coupon: data.get('coupon'),
-            trees: data.get('trees'),
-            content: data.get('content'),
-            image: data.get('image')
-        });
-        setOpenAlert(true);
+        const formData = new FormData();
+        formData.append("company_name", data.get('name'));
+        formData.append("website", data.get('website'));
+        formData.append("coupon_info", data.get('coupon'));
+        formData.append("trees_per_click", data.get('trees'));
+        formData.append("advertisement_content", data.get('content'));
+        formData.append("advertisement_image", data.get('image'));
+        postAdsAPIMethod(formData).then((data) => {
+            if (data.status === 401) {
+                window.location.replace(
+                    urlJoin(process.env.REACT_APP_FRONTEND_URL, "/Login")
+                );
+            } else if (data.status === 200) {
+                setOpenAlert(true);
+            }
+        })
     };
 
     return (
@@ -112,8 +126,8 @@ const Company = () => {
                             fullWidth
                             sx={{ mt: 1, mb: 1}}
                         >
-                            UPLOAD ADVERTISEMENT IMAGE
-                            <input hidden accept="image/*" type="file" id="image" name="image"/>
+                            {fileName || 'UPLOAD ADVERTISEMENT IMAGE'}
+                            <input hidden accept="image/*" type="file" id="image" name="image" onChange={handleFileInputChange}/>
                         </Button>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <Button

@@ -100,4 +100,18 @@ export const getUserCouponAPIMethod = (couponCodes) => {
         }
     ).then(parseJSON)
 }
-
+export const postAdsAPIMethod = (formData) => {
+    return fetch(
+        urlJoin(
+            process.env.REACT_APP_BACKEND_URL + "/apps/advertisement/register"
+        ),
+        {
+            credentials: "include",
+            method: "POST",
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('access_token')}`
+            }
+        }
+    ).then(parseJSON);
+};
