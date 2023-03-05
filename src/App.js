@@ -6,7 +6,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Company from "./pages/Company";
 import Profile from "./pages/Profile";
-
+import Admin from "./pages/Admin";
 import "./index.css";
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
 
           <Route path="/Company" element={<Company />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/Admin" element={<Admin />} />
         </Routes>
       </Router>
   );

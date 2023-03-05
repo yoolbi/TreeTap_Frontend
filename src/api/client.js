@@ -100,3 +100,4 @@ export const getUserCouponAPIMethod = (couponCodes) => {
         }
     ).then(parseJSON)
 }
+
