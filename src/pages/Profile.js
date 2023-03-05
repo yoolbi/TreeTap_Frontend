@@ -48,10 +48,11 @@ const GetLandUrl = (treeCount) => {
 
 const GetLevelUrl = (treeCount) => {
     let level;
-    if (treeCount < 10) level = 1
-    else if (treeCount < 100) level = 2;
-    else if (treeCount < 1000) level = 3;
-    else level = 4
+    if (treeCount === 0) level = 1;
+    else if (treeCount < 10) level = 2;
+    else if (treeCount < 100) level = 3;
+    else if (treeCount < 1000) level = 4;
+    else level = 5
     return `/images/level${level}.png`;
 }
 
