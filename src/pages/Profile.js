@@ -43,7 +43,7 @@ const GetLandUrl = (treeCount) => {
     else if (treeCount < 10) landNum = 2
     else if (treeCount < 100) landNum = 3
     else if (treeCount < 1000) landNum = 4
-    else landNum = 4
+    else landNum = 5
     return `/images/land${landNum}.png`;
 }
 
