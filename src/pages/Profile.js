@@ -240,7 +240,7 @@ const Profile = () => {
                         <Link to={'/'}><div onClick={Logout} style={{color:'gray'}}>Log out</div></Link>
                     </div>
                     <div style={{position:'fixed', bottom:"0", right:'105px', margin:'10px'}}>
-                        <Link to={'/Admin'}><div onClick={Logout} style={{color:'gray'}}>Admin</div></Link>
+                        <Link to={'/Admin'}><div style={{color:'gray'}}>Admin</div></Link>
                     </div>
                 </div>
             </div>
