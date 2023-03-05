@@ -28,6 +28,7 @@ jobs:
           script: |
             cd /root/TreeTap_Frontend
             npm install
+            source setenv.sh
             npm run build
       
       - name: Copy build file to /var/www/html
