@@ -1,0 +1,51 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve updated changes
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            cd /root/TreeTap_Frontend
+            git pull
+            
+      - name: Npm install and build
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            cd /root/TreeTap_Frontend
+            npm install
+            npm run build
+      
+      - name: Copy build file to /var/www/html
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            sudo cp -r /root/TreeTap_Frontend/build/. /var/www/html
+            
+      - name: Restart Nginx
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+        
+          script: |
+            systemctl restart nginx
