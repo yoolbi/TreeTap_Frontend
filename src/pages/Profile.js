@@ -4,8 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
 import Banner from "./Banner";
-import {Paper} from "@mui/material";
-import {getAdsAPIMethod, getProfileAPIMethod, getUserCouponAPIMethod} from "../api/client";
+import {getProfileAPIMethod, getUserCouponAPIMethod} from "../api/client";
 import urlJoin from "url-join";
 
 
@@ -17,11 +16,6 @@ const stateBarKeyStyle = {
 const stateBarValueStyle = {
     display:'flex', alignItems:'end', justifyContent:'center', flex:1.5, fontSize:'25px', color:'#4D4D4D', fontWeight:'550', fontFamily: "Open Sans"
 }
-
-const tempCouponList = [
-    { label: 'Coupon1'},
-    { label: 'Coupon2'},
-    { label: 'Coupon3'}]
 
 const CouponDropDown = (param) => {
     console.log(param)
@@ -104,7 +98,9 @@ const Profile = () => {
     {
         if (profile.userCouponCodes.length > 0)
         {
-            getUserCouponAPIMethod(profile.userCouponCodes).then((data) => {
+            console.log(profile.userCouponCodes);
+            let codes = profile.userCouponCodes.map((pair) => pair.advertisement_id)
+            getUserCouponAPIMethod(codes).then((data) => {
                 if (data.status === 401) {
                     window.location.replace(
                         urlJoin(process.env.REACT_APP_FRONTEND_URL, "/")
