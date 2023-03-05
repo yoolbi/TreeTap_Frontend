@@ -2,14 +2,18 @@ import React, {useEffect, useState} from "react";
 import {Link} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Cookies from 'js-cookie';
 import Banner from "./Banner";
 import {getProfileAPIMethod, getUserCouponAPIMethod} from "../api/client";
 import urlJoin from "url-join";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
 
 
 const stateBarKeyStyle = {
-    display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'15px', color:'#787878', fontWeight:'500', fontFamily: "Open Sans"
+    display:'flex', alignItems:'center', justifyContent:'center', flex:1, fontSize:'15px', color:'#787878', fontWeight:'500', fontFamily: "Open Sans", whiteSpace: 'nowrap'
 }
 
 const stateBarValueStyle = {
@@ -51,8 +55,23 @@ const GetLevelUrl = (treeCount) => {
     return `/images/level${level}.png`;
 }
 
-const Profile = () => {
+const OnMouseOverCarbonCredit = () => {
 
+}
+
+const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 11,
+    },
+}));
+
+
+const Profile = () => {
     const [profile, setProfile] = useState({
         numOfTrees: 0,
         carbonCredit: 0,
@@ -186,7 +205,10 @@ const Profile = () => {
                             {count.carbon.toLocaleString()}
                         </div>
                         <div style={stateBarKeyStyle}>
-                            CARBON CREDIT
+                            CARBON CREDIT&nbsp;
+                            <LightTooltip title="kg/year">
+                                <HelpOutlineIcon color="primary" sx={{fontSize:'small'}}></HelpOutlineIcon>
+                            </LightTooltip>
                         </div>
                         <div style={{flex: '0.3'}}></div>
                     </div>
